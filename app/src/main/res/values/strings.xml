@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TodoApp</string>
     <string name="action_settings">Settings</string>
+    <string name="titleHeader">Title</string>
+    <string name="contentHeader">Content</string>
+    <string name="saveText">Save</string>
 </resources>

@@ -17,8 +17,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).show()
+        saveButton.setOnClickListener { v ->
+            val title = titleEditText.text
+            val content = contentEditText.text
+
+
         }
     }
 
@@ -34,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                textView.text = "You clicked on Settings"
                 true
             }
             R.id.action_share -> {
