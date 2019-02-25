@@ -1,12 +1,11 @@
 package com.soc.todoapp
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-
+import com.soc.todoapp.models.Todo
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -18,10 +17,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         saveButton.setOnClickListener { v ->
-            val title = titleEditText.text
-            val content = contentEditText.text
+            val title = titleEditText.text.toString()
+            val content = contentEditText.text.toString()
 
-
+            val date = System.currentTimeMillis()
+            val newTodo = Todo(title, content, date)
         }
     }
 
