@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="85dp">
 
     <TextView
         android:id="@+id/titleTextView"
@@ -15,6 +15,13 @@
     <TextView
         android:id="@+id/contentTextView"
         style="@style/ListItemDetailTextView"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
+        android:maxLength="25"
         tools:text="this is a blog of a student....."/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="5dp"
+        android:background="@color/colorLightGrey"/>
 </LinearLayout>

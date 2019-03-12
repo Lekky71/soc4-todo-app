@@ -10,13 +10,14 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/todoRecyclerView"
         android:layout_width="match_parent"
+        tools:listitem="@layout/each_todo_layout"
         android:layout_height="wrap_content" />
 
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addTodoButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="30dp"

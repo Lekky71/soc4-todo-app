@@ -16,7 +16,8 @@ class TodoAdapter(var context: Context, var todoList: ArrayList<Todo>) : Recycle
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): TodoViewHolder {
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.each_todo_layout, parent, false)
-        return TodoViewHolder(view)
+        val viewHolder = TodoViewHolder(view)
+        return viewHolder
     }
 
     //Specifying the number of items to show
@@ -33,6 +34,7 @@ class TodoAdapter(var context: Context, var todoList: ArrayList<Todo>) : Recycle
 
     //Specifying the views in the recycler view holder
     class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         var titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         var contentTextView: TextView = itemView.findViewById(R.id.contentTextView)
 

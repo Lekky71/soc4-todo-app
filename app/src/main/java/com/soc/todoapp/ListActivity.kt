@@ -2,9 +2,11 @@ package com.soc.todoapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.soc.todoapp.adapters.TodoAdapter
+import com.soc.todoapp.data.PreferenceManager
 import com.soc.todoapp.models.Todo
 import kotlinx.android.synthetic.main.activity_list.*
 
@@ -31,6 +33,16 @@ class ListActivity : AppCompatActivity() {
         todoRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
         val adapter = TodoAdapter(applicationContext, todoList)
         todoRecyclerView.adapter = adapter
+
+        // created instance of PreferenceManager
+        // testing
+//        val preferenceManager = PreferenceManager(applicationContext)
+//        preferenceManager.setUserName("Promise")
+//        Snackbar.make(todoRecyclerView, "Welcome ${preferenceManager.getUsername()}!!!", Snackbar.LENGTH_INDEFINITE).show()
+//        if(preferenceManager.isUserLoggedIn()){
+//            val intent = Intent(applicationContext, MainActivity::class.java)
+//            startActivity(intent)
+//        }
 
         addTodoButton.setOnClickListener {
             // go to another activity
