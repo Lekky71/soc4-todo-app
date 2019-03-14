@@ -1,14 +1,17 @@
 package com.soc.todoapp
 
+import android.app.Activity
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.soc.todoapp.data.TodoData
-import com.soc.todoapp.data.TodoDatabase
-import com.soc.todoapp.models.Todo
 import com.soc.todoapp.models.TodoViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -33,19 +36,15 @@ class MainActivity : AppCompatActivity() {
             newTodo.title = title
             newTodo.content = content
             newTodo.created_at = date
-            TodoRunnable(todoViewModel, newTodo).run()
+
+
+            val task = SaveAsyncTask(todoViewModel, this, this)
+            task.execute(newTodo)
+
 
         }
     }
 
-    class TodoRunnable(private var todoViewModel: TodoViewModel, private var todo: TodoData): Runnable {
-
-        override fun run() {
-            todoViewModel.insertTodoIntoDb(todo)
-
-        }
-
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -67,5 +66,32 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+
+    class SaveAsyncTask(private val todoViewModel: TodoViewModel, private val lifecycleOwner: LifecycleOwner, private var context: Activity): AsyncTask<TodoData, Void, Boolean>() {
+
+        override fun doInBackground(vararg params: TodoData?): Boolean {
+            todoViewModel.insertTodoIntoDb(params[0]!!).observe(lifecycleOwner, Observer {result ->
+                val intent = Intent(context, ListActivity::class.java)
+                context.startActivity(intent)
+                context.finish()
+            })
+            return true
+        }
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            super.onPostExecute(result)
+
+        }
+
+        override fun onProgressUpdate(vararg values: Void?) {
+            super.onProgressUpdate(*values)
+        }
+
     }
 }
