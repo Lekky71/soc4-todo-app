@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             val task = SaveAsyncTask(todoViewModel, this, this)
             task.execute(newTodo)
 
-
         }
     }
 
@@ -69,7 +68,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    class SaveAsyncTask(private val todoViewModel: TodoViewModel, private val lifecycleOwner: LifecycleOwner, private var context: Activity): AsyncTask<TodoData, Void, Boolean>() {
+    class SaveAsyncTask(private val todoViewModel: TodoViewModel,
+                        private val lifecycleOwner: LifecycleOwner,
+                        private var context: Activity)
+        : AsyncTask<TodoData, Void, Boolean>() {
 
         override fun doInBackground(vararg params: TodoData?): Boolean {
             todoViewModel.insertTodoIntoDb(params[0]!!).observe(lifecycleOwner, Observer {result ->
@@ -77,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 context.startActivity(intent)
                 context.finish()
             })
+
             return true
         }
 
@@ -94,4 +97,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 }
