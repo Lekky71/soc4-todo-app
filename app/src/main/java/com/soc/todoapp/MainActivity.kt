@@ -26,20 +26,27 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         todoViewModel = ViewModelProviders.of(this).get(TodoViewModel::class.java)
 
+        var todo = TodoData()
+
+        if(intent.extras != null){
+            todo = intent.getParcelableExtra("EDIT_THIS_TODO")
+            titleEditText.setText(todo.title)
+            contentEditText.setText(todo.content)
+        }
+
         saveButton.setOnClickListener { v ->
             val title = titleEditText.text.toString()
             val content = contentEditText.text.toString()
 
             val date = System.currentTimeMillis()
 
-            val newTodo = TodoData()
-            newTodo.title = title
-            newTodo.content = content
-            newTodo.created_at = date
+            todo.title = title
+            todo.content = content
+            todo.created_at = date
 
 
             val task = SaveAsyncTask(todoViewModel, this, this)
-            task.execute(newTodo)
+            task.execute(todo)
 
         }
     }
@@ -79,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                 context.startActivity(intent)
                 context.finish()
             })
-
             return true
         }
 

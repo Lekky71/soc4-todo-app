@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import com.soc.todoapp.adapters.TodoAdapter
 import com.soc.todoapp.data.TodoData
 import com.soc.todoapp.models.TodoViewModel
@@ -41,11 +40,6 @@ class ListActivity : AppCompatActivity() {
         fetchThread.start()
 
 
-        val tobaThread = Thread(Runnable {
-            Toast.makeText(applicationContext, "Get my 15k back...", Toast.LENGTH_LONG).show()
-        })
-
-        tobaThread.start()
         /*
              created instance of PreferenceManager
              testing
