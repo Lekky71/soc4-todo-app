@@ -1,14 +1,17 @@
 package com.soc.todoapp
 
+import android.app.ProgressDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.soc.todoapp.adapters.TodoAdapter
 import com.soc.todoapp.data.TodoData
 import com.soc.todoapp.models.TodoViewModel
+import com.soc.todoapp.network.NetworkUtils
 import kotlinx.android.synthetic.main.activity_list.*
 
 class ListActivity : AppCompatActivity() {
@@ -32,13 +35,32 @@ class ListActivity : AppCompatActivity() {
         todoRecyclerView.adapter = adapter
 
 
-        val fetchThread = Thread(Runnable {
-            todoViewModel.getAllTodos().observe(this, Observer { allTodos ->
-                adapter.swapTodos(allTodos)
-            })
-        })
-        fetchThread.start()
+        if(NetworkUtils.isOnline(applicationContext)){
+            val progressDialog = ProgressDialog(this@ListActivity)
 
+            progressDialog.setTitle("Fetch Todos")
+            progressDialog.setMessage("Retrieving your todos...")
+            progressDialog.show()
+            todoViewModel.getAllTodosFromServer().observe(this, Observer {
+                progressDialog.dismiss()
+                if(it != null){
+                    adapter.swapTodos(it)
+                }
+                else {
+                    Toast.makeText(applicationContext, "An error occurred", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+        else {
+            Toast.makeText(applicationContext, "You're offline, fetching last saved todos...", Toast.LENGTH_LONG).show()
+            val fetchThread = Thread(Runnable {
+                todoViewModel.getAllTodos().observe(this, Observer { allTodos ->
+                    adapter.swapTodos(allTodos)
+                })
+            })
+            fetchThread.start()
+
+        }
 
         /*
              created instance of PreferenceManager

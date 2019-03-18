@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.soc.todoapp.R
 import com.soc.todoapp.TodoActivity
 import com.soc.todoapp.data.TodoData
-import com.soc.todoapp.models.Todo
 
 class TodoAdapter(var context: Context, var todoList: ArrayList<TodoData>) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 

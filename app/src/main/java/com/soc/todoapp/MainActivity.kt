@@ -1,12 +1,14 @@
 package com.soc.todoapp
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity() {
             val task = SaveAsyncTask(todoViewModel, this, this)
             task.execute(todo)
 
+
+
         }
     }
 
@@ -79,21 +83,35 @@ class MainActivity : AppCompatActivity() {
                         private val lifecycleOwner: LifecycleOwner,
                         private var context: Activity)
         : AsyncTask<TodoData, Void, Boolean>() {
-
+        val progressDialog = ProgressDialog(context)
         override fun doInBackground(vararg params: TodoData?): Boolean {
             todoViewModel.insertTodoIntoDb(params[0]!!).observe(lifecycleOwner, Observer {result ->
-                val intent = Intent(context, ListActivity::class.java)
-                context.startActivity(intent)
-                context.finish()
+                todoViewModel.postTodoToServer(params[0]!!).observe(lifecycleOwner, Observer {
+                    progressDialog.dismiss()
+                    if(it!!){
+                        val intent = Intent(context, ListActivity::class.java)
+                        context.startActivity(intent)
+                        context.finish()
+                    }
+                    else {
+                        Snackbar.make(context.contentEditText, "An error occurred, check your internet", Snackbar.LENGTH_LONG).show()
+                    }
+
+                })
+
             })
             return true
         }
 
         override fun onPreExecute() {
+            progressDialog.setTitle("Save Todo")
+            progressDialog.setMessage("Saving your todo, please wait...")
+            progressDialog.show()
             super.onPreExecute()
         }
 
         override fun onPostExecute(result: Boolean?) {
+
             super.onPostExecute(result)
 
         }
